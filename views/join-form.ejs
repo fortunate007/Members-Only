@@ -1,0 +1,16 @@
+<%- include('partials/header') %>
+
+<h1>Join the club</h1>
+<p>Enter the secret passcode to unlock member status.</p>
+
+<% if (error) { %>
+  <ul class="errors"><li><%= error %></li></ul>
+<% } %>
+
+<form action="/join" method="POST" class="form">
+  <label for="passcode">Passcode</label>
+  <input type="text" id="passcode" name="passcode" required autofocus />
+  <button type="submit">Unlock membership</button>
+</form>
+
+<%- include('partials/footer') %>

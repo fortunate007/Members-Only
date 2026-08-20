@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+
+<h1>The Clubhouse</h1>
+
+<% if (currentUser && currentUser.membership_status) { %>
+  <p class="hint">You're a member &mdash; you can see who wrote what, and when.</p>
+<% } else if (currentUser) { %>
+  <p class="hint"><a href="/join">Join the club</a> to see who wrote each message.</p>
+<% } else { %>
+  <p class="hint"><a href="/sign-up">Sign up</a> and <a href="/join">join the club</a> to see who wrote each message.</p>
+<% } %>
+
+<% if (messages.length === 0) { %>
+  <p>No messages yet. Be the first to post!</p>
+<% } %>
+
+<ul class="message-list">
+  <% messages.forEach(function(msg) { %>
+    <li class="message-card">
+      <h2><%= msg.title %></h2>
+      <p class="message-text"><%= msg.text %></p>
+
+      <div class="message-meta">
+        <% if (currentUser && currentUser.membership_status) { %>
+          <span>by <%= msg.first_name %> <%= msg.last_name %></span>
+          <span>&middot;</span>
+          <span><%= new Date(msg.timestamp).toLocaleString() %></span>
+        <% } else { %>
+          <span>by an anonymous member</span>
+        <% } %>
+      </div>
+
+      <% if (currentUser && currentUser.is_admin) { %>
+        <form action="/messages/<%= msg.id %>/delete" method="POST" class="inline-form">
+          <button type="submit" class="link-button danger" onclick="return confirm('Delete this message?')">Delete</button>
+        </form>
+      <% } %>
+    </li>
+  <% }); %>
+</ul>
+
+<%- include('partials/footer') %>

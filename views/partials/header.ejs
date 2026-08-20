@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Members Only</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">🕵️ Members Only</a>
+    <nav>
+      <% if (currentUser) { %>
+        <span class="hello">
+          Hi, <%= currentUser.first_name %>
+          <% if (currentUser.membership_status) { %><span class="badge badge-member">member</span><% } %>
+          <% if (currentUser.is_admin) { %><span class="badge badge-admin">admin</span><% } %>
+        </span>
+        <a href="/messages/new">Create a new message</a>
+        <% if (!currentUser.membership_status) { %><a href="/join">Join the club</a><% } %>
+        <% if (!currentUser.is_admin) { %><a href="/admin">Become admin</a><% } %>
+        <form action="/log-out" method="POST" class="inline-form">
+          <button type="submit" class="link-button">Log out</button>
+        </form>
+      <% } else { %>
+        <a href="/sign-up">Sign up</a>
+        <a href="/log-in">Log in</a>
+      <% } %>
+    </nav>
+  </header>
+  <main class="container">
