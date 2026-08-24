@@ -18,9 +18,8 @@ const app = express();
 app.locals.currentUser = null;
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"))
+app.set("views", path.join(__dirname, "views"));
 
-app.locals.currentUser = currentUser;
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -35,6 +34,7 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
 app.use(passport.session());
 app.use(attachUserToLocals);
 
